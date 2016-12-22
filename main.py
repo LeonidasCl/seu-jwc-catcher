@@ -225,8 +225,9 @@ class LoginDialog(Toplevel):
             response = urllib2.urlopen(req, timeout=12)
             content = response.read()
             match0=re.findall("id=\"errorReason\" value=\"(.*?)!\"",content,re.S)
-            if match0[0]=="选课尚未开放":
-                mainLabel.config(text="选课系统还没有开放，可以查看课表")
+            if match0:
+                if match0[0]=="选课尚未开放":
+                    mainLabel.config(text="选课系统还没有开放，可以查看课表")
             match = re.findall(
                 r"\"#666666\">([^<]*?)</font>[^F]*?\" onclick=\"selectThis\('(.*?)','(.*?)','(.*?)',this,'.*?'\)",
                 content, re.S)
