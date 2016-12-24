@@ -54,7 +54,7 @@ flag_humanity = 1
 flag_science = 1
 flag_economics = 1
 
-# 强度最大为0，即不等待，默认0.4
+
 intensity = 0.4
 
 fake_headers = [{'Host': 'xk.urp.seu.edu.cn',
