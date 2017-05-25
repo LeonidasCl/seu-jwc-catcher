@@ -234,6 +234,7 @@ class LoginDialog(Toplevel):
             match_2 = re.findall(r"onclick=\"changeXnXq\('(.*?)','(.*?)','(.*?)'\)",content, re.S)
             #对于在春季选秋季学期（第1-2学期）课的情况，直接切换到第二学期，因为短学期课不需要抢
             if match_2.__len__()==2:
+                time.sleep(7)
                 url_2 = 'http://xk.urp.seu.edu.cn/jw_css/xk/runXnXqmainSelectClassAction.action?Wv3opdZQ89ghgdSSg9FsgG49koguSd2fRVsfweSUj=Q89ghgdSSg9FsgG49koguSd2fRVs&selectXn='+match_2[1][0]+'&selectXq='+match_2[1][1]+'&selectTime='+match_2[1][2]
                 req_2 = urllib2.Request(url_2, headers=header)
                 response_2 = urllib2.urlopen(req_2, timeout=12)
