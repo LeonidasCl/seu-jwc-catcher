@@ -55,7 +55,7 @@ flag_science = 1
 flag_economics = 1
 
 
-intensity = 0.4
+intensity = 0
 
 fake_headers = [{'Host': 'xk.urp.seu.edu.cn',
                  'Proxy-Connection': 'keep-alive',
@@ -70,11 +70,11 @@ fake_headers = [{'Host': 'xk.urp.seu.edu.cn',
                  'Connection': 'keep-alive',
                  'Host': 'xk.urp.seu.edu.cn',
                  'Origin': 'http://xk.urp.seu.edu.cn',
-                 'User-Agent': 'ozilla/5.0 (Windows NT 6.2; rv:16.0) Gecko/20100101 Firefox/16.0'},
+                 'User-Agent': 'Mozilla/6.0 (Windows NT 6.2; rv:16.0) Gecko/20100101 Firefox/16.0'},
                 {'Host': 'xk.urp.seu.edu.cn',
                  'Connection': 'keep-alive',
                  'Accept': 'text/html, */*; q=0.01',
-                 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36',
+                 'User-Agent': 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36',
                  'Origin': 'http://xk.urp.seu.edu.cn'}]
 
 
@@ -231,6 +231,16 @@ class LoginDialog(Toplevel):
             match = re.findall(
                 r"\"#666666\">([^<]*?)</font>[^F]*?\" onclick=\"selectThis\('(.*?)','(.*?)','(.*?)',this,'.*?'\)",
                 content, re.S)
+            match_2 = re.findall(r"onclick=\"changeXnXq\('(.*?)','(.*?)','(.*?)'\)",content, re.S)
+            #对于在春季选秋季学期（第1-2学期）课的情况，直接切换到第二学期，因为短学期课不需要抢
+            if match_2.__len__()==2:
+                url_2 = 'http://xk.urp.seu.edu.cn/jw_css/xk/runXnXqmainSelectClassAction.action?Wv3opdZQ89ghgdSSg9FsgG49koguSd2fRVsfweSUj=Q89ghgdSSg9FsgG49koguSd2fRVs&selectXn='+match_2[1][0]+'&selectXq='+match_2[1][1]+'&selectTime='+match_2[1][2]
+                req_2 = urllib2.Request(url_2, headers=header)
+                response_2 = urllib2.urlopen(req_2, timeout=12)
+                content_2 = response_2.read()
+                match = re.findall(
+                    r"\"#666666\">([^<]*?)</font>[^F]*?\" onclick=\"selectThis\('(.*?)','(.*?)','(.*?)',this,'.*?'\)",
+                    content_2, re.S)
             for i in range(0, match.__len__()):
                 tup = (match[i][0], match[i][1],
                        match[i][2], match[i][3])
